@@ -151,14 +151,12 @@ const Gallery: NextPage = () => {
 
   const images = IMAGES_BY_YEAR[year] || [];
 
-  // Preload next & previous whenever modal opens or index changes
+  // Preload neighbors
   useEffect(() => {
     if (!modalIsOpen || images.length === 0) return;
-
-    const nextIdx = (currentIdx + 1) % images.length;
-    const prevIdx = (currentIdx - 1 + images.length) % images.length;
-
-    [images[nextIdx], images[prevIdx]].forEach((src) => {
+    const next = (currentIdx + 1) % images.length;
+    const prev = (currentIdx - 1 + images.length) % images.length;
+    [images[next], images[prev]].forEach((src) => {
       const img = new window.Image();
       img.src = src;
     });
@@ -206,7 +204,7 @@ const Gallery: NextPage = () => {
         </div>
       </div>
 
-      {/* Masonry-style Grid */}
+      {/* Masonry Grid */}
       <main className="flex-1 bg-gray-50 py-12">
         <div className="max-w-7xl mx-auto px-4">
           <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
@@ -229,47 +227,59 @@ const Gallery: NextPage = () => {
         </div>
       </main>
 
-      {/* Lightbox Modal */}
+      {/* Lightbox */}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         contentLabel="Image Lightbox"
         overlayClassName="fixed inset-0 bg-black bg-opacity-75 z-50"
-        className="absolute inset-0 flex items-center justify-center outline-none"
+        className="fixed inset-0 flex items-center justify-center p-6 outline-none"
       >
-        <div className="relative max-w-screen-md w-full max-h-full">
+        <div className="relative w-full max-w-screen-lg max-h-full flex items-center">
           {/* Close */}
           <button
             onClick={closeModal}
             aria-label="Close"
-            className="absolute -top-4 -right-4 bg-white bg-opacity-75 hover:bg-opacity-100 rounded-full p-2 text-black text-2xl z-50 transition"
+            className="
+              absolute top-4 right-4
+              bg-white bg-opacity-80 hover:bg-opacity-100
+              rounded-full p-2 text-black text-2xl z-50
+              transition
+            "
           >
             &times;
           </button>
+
           {/* Prev */}
           <button
             onClick={prevImage}
             aria-label="Previous"
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 text-white text-3xl px-4 z-50"
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl px-4 z-50"
           >
             ‹
           </button>
-          {/* Image (priority) */}
-          <div className="w-full h-full flex items-center justify-center">
+
+          {/* Image Container */}
+          <div className="mx-auto max-h-full overflow-auto">
             <Image
               src={images[currentIdx]}
               alt={`Gallery ${year} #${currentIdx + 1}`}
               width={1200}
               height={800}
-              style={{ maxWidth: "100%", maxHeight: "100%", height: "auto" }}
               priority
+              style={{
+                maxWidth: "100%",
+                maxHeight: "80vh",
+                height: "auto",
+              }}
             />
           </div>
+
           {/* Next */}
           <button
             onClick={nextImage}
             aria-label="Next"
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white text-3xl px-4 z-50"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl px-4 z-50"
           >
             ›
           </button>
