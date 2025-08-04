@@ -111,7 +111,7 @@ const About: NextPage = () => (
 
     <TeamSection members={team} />
 
-    {/* Footer */}w
+    {/* Footer */}
     <Footer />
   </div>
 );
