@@ -227,64 +227,64 @@ const Gallery: NextPage = () => {
         </div>
       </main>
 
-      {/* Lightbox */}
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Image Lightbox"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-75 z-50"
-        className="fixed inset-0 flex items-center justify-center p-6 outline-none"
-      >
-        <div className="relative w-full max-w-screen-lg max-h-full flex items-center">
-          {/* Close */}
-          <button
-            onClick={closeModal}
-            aria-label="Close"
-            className="
-              absolute top-4 right-4
-              bg-white bg-opacity-80 hover:bg-opacity-100
-              rounded-full p-2 text-black text-2xl z-50
-              transition
-            "
-          >
-            &times;
-          </button>
+     {/* Lightbox Modal */}
+<Modal
+  isOpen={modalIsOpen}
+  onRequestClose={closeModal}
+  contentLabel="Image Lightbox"
+  overlayClassName="fixed inset-0 bg-black bg-opacity-75 z-50"
+  className="fixed inset-0 flex items-center justify-center p-6 outline-none"
+>
+  <div className="relative flex items-center justify-center w-full h-full">
+    {/* Close */}
+    <button
+      onClick={closeModal}
+      aria-label="Close"
+      className="
+        absolute top-6 right-6
+        bg-white bg-opacity-80 hover:bg-opacity-100
+        rounded-full p-2 text-black text-2xl z-50
+        transition
+      "
+    >
+      &times;
+    </button>
 
-          {/* Prev */}
-          <button
-            onClick={prevImage}
-            aria-label="Previous"
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl px-4 z-50"
-          >
-            ‹
-          </button>
+    {/* Prev */}
+    <button
+      onClick={prevImage}
+      aria-label="Previous"
+      className="absolute left-6 top-1/2 transform -translate-y-1/2 text-white text-4xl px-4 z-50"
+    >
+      ‹
+    </button>
 
-          {/* Image Container */}
-          <div className="mx-auto max-h-full overflow-auto">
-            <Image
-              src={images[currentIdx]}
-              alt={`Gallery ${year} #${currentIdx + 1}`}
-              width={1200}
-              height={800}
-              priority
-              style={{
-                maxWidth: "100%",
-                maxHeight: "80vh",
-                height: "auto",
-              }}
-            />
-          </div>
+    {/* The Image */}
+    <Image
+      src={images[currentIdx]}
+      alt={`Gallery ${year} #${currentIdx + 1}`}
+      width={1200}
+      height={800}
+      priority
+      style={{
+        maxWidth: 'calc(100vw - 120px)',
+        maxHeight: 'calc(100vh - 120px)',
+        width: 'auto',
+        height: 'auto',
+      }}
+    />
 
-          {/* Next */}
-          <button
-            onClick={nextImage}
-            aria-label="Next"
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl px-4 z-50"
-          >
-            ›
-          </button>
-        </div>
-      </Modal>
+    {/* Next */}
+    <button
+      onClick={nextImage}
+      aria-label="Next"
+      className="absolute right-6 top-1/2 transform -translate-y-1/2 text-white text-4xl px-4 z-50"
+    >
+      ›
+    </button>
+  </div>
+</Modal>
+
 
       <Footer />
     </div>
