@@ -13,22 +13,22 @@ const historySections = [
   },
   {
     title: "Formal Registration (March 12, 1996)",
-    text: `The Ethiopian community in Nashville, under its current name, was formed on March 12, 1996. It was registered by Dawit Aynachew who became its first chairman. Rubka Tamerat was its secretary, and Sister Yirga was the Treasurer.`,
+    text: `The Ethiopian community in Nashville, under its current name, was formed on March 12, 1996. It was registered by Dawit Aynachew who became its first chairman. Rubka Tamerat was its secretary, and Sister Yirga was the Treasurer. The second wave of formation started when groups of friends who used to gather around the Bellevue area for social events and later on began “Equb” (An Ethiopian style savings plan) determined to formally organize and start a nonprofit organization.`,
   },
   {
     title: "A Founder’s Legacy (April 5, 1996)",
-    text: `On April 5, 1996 (in the same year ECAN was registered), the community lost one of its ardent supporters and founder Major Girma Damte. His eulogy captured his spirit with these words:
+    text: `On April 5, 1996 (in the same year ECAN was registered), the community lost one of its ardent supporters and founder Major Girma Damte. The fact that he was instrumental in the formation of the community was memorialized in his eulogy. The loss of his joyful and On April 5, 1996 (in the same year ECAN was registered), the community lost one of its ardent supporter and founder Major Girma Damte. The fact that he was instrumental in the formation of the community was memorialized in his eulogy. The loss of his joyful and entertaining appearance was captured in the same eulogy by the following words:
 
 “ሐዘናችን በዛ አበቃ ሳቃችን  
 ነፍሳትን ለማሳቅ ሄደና ግርማችን!!!”`,
   },
   {
     title: "Expanding Presence (Late ’90s–2000s)",
-    text: `ECAN was one of the oldest participants in the annual International Food and Culture gatherings at Vanderbilt’s Sarratt Center and later at Centennial Mall—bringing Ethiopian culture to the heart of Nashville.`,
+    text: `The name ECAN was meant to remind us that we Ethiopians Can make it in Nashville. It was our, “Yes We Can” before the term was popularized by President Obama. The formation of the community has strengthened the formation of other faith-based organizations and ECAN’s contribution in making the community’s presence felt around Nashville was pivotal. ECAN was one of the oldest participants in the annual International Food and culture gatherings in Vanderbilt’s Sarratt Center and later on in Centennial Mall.`,
   },
   {
     title: "Continuing the Mission (Today)",
-    text: `Throughout its existence, ECAN has worked tirelessly to help the Ethiopian community in Nashville and to showcase our rich cultural heritage to the wider Nashville community. Yet, there is much to do—and we need all the support of our members to create a knowledgeable, empowered, responsible, productive, collaborative, and engaged Ethiopian community in Nashville, while preserving and promoting our unique cultural tradition and diverse heritage.`,
+    text: `Throughout its existence, ECAN has worked tirelessly to help the Ethiopian community in Nashville and to showcase our rich cultural heritage to the wider Nashville community. Yet, there is much to do and we need all the support of our members to create a knowledgeable, empowered, responsible, productive, collaborative, and engaged Ethiopian community in Nashville, while preserving and promoting our unique cultural tradition and diverse heritage.`,
   },
 ];
 
