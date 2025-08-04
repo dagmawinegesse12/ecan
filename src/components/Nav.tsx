@@ -16,7 +16,8 @@ const Nav: React.FC = () => {
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image
-            src="http://www.ecantn.org/assets/ECAN_Logo_2.svg"
+
+            src="/ECAN_Logo_2.svg"
             alt="ECAN logo"
             width={150}
             height={150}

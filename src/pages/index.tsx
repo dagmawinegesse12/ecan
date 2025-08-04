@@ -24,8 +24,9 @@ const Home: NextPage = () => (
    
 
     {/* Hero Carousel */}
+    <div className="-mt-12">
     <HeroCarousel slides={slides} />
-    
+    </div>
     {/* Cards Section */}
     <section className="px-4 pb-16 -mt-16 z-10 relative">
       <div className="max-w-7xl mx-auto grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
