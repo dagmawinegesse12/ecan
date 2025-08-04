@@ -1,5 +1,5 @@
 // src/pages/gallery.tsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
@@ -145,40 +145,49 @@ const IMAGES_BY_YEAR: Record<string, string[]> = {
 };
 
 const Gallery: NextPage = () => {
-    const [year, setYear] = useState<string>("2022");
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [currentIdx, setCurrentIdx] = useState(0);
+  const [year, setYear] = useState<string>("2022");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [currentIdx, setCurrentIdx] = useState(0);
 
-    const images = IMAGES_BY_YEAR[year] || [];
+  const images = IMAGES_BY_YEAR[year] || [];
 
-    function openModal(idx: number) {
-        setCurrentIdx(idx);
-        setModalIsOpen(true);
-    }
-    function closeModal() {
-        setModalIsOpen(false);
-    }
-    function prevImage() {
-        setCurrentIdx((i) => (i === 0 ? images.length - 1 : i - 1));
-    }
-    function nextImage() {
-        setCurrentIdx((i) => (i === images.length - 1 ? 0 : i + 1));
-    }
+  // Preload next & previous whenever modal opens or index changes
+  useEffect(() => {
+    if (!modalIsOpen || images.length === 0) return;
 
-    return (
-        <div className="flex flex-col min-h-screen">
-            <Nav />
+    const nextIdx = (currentIdx + 1) % images.length;
+    const prevIdx = (currentIdx - 1 + images.length) % images.length;
 
-            {/* Year Tabs */}
-            <div className="bg-gray-100 py-4">
-                <div className="max-w-7xl mx-auto px-4 flex justify-center flex-wrap gap-4">
-                    {YEARS.map((y) => {
-                        const isActive = y === year;
-                        return (
-                            <button
-                                key={y}
-                                onClick={() => setYear(y)}
-                                className={`
+    [images[nextIdx], images[prevIdx]].forEach((src) => {
+      const img = new window.Image();
+      img.src = src;
+    });
+  }, [modalIsOpen, currentIdx, images]);
+
+  const openModal = (idx: number) => {
+    setCurrentIdx(idx);
+    setModalIsOpen(true);
+  };
+  const closeModal = () => setModalIsOpen(false);
+  const prevImage = () =>
+    setCurrentIdx((i) => (i === 0 ? images.length - 1 : i - 1));
+  const nextImage = () =>
+    setCurrentIdx((i) => (i === images.length - 1 ? 0 : i + 1));
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Nav />
+
+      {/* Year Tabs */}
+      <div className="bg-gray-100 py-4">
+        <div className="max-w-7xl mx-auto px-4 flex justify-center flex-wrap gap-4">
+          {YEARS.map((y) => {
+            const isActive = y === year;
+            return (
+              <button
+                key={y}
+                onClick={() => setYear(y)}
+                className={`
                   px-6 py-2
                   rounded-full
                   text-lg
@@ -186,115 +195,89 @@ const Gallery: NextPage = () => {
                   tracking-wide
                   transition
                   ${isActive
-                                        ? "bg-green-600 text-white shadow-md"
-                                        : "bg-white text-gray-700 hover:bg-green-50"}
+                    ? "bg-green-600 text-white shadow-md"
+                    : "bg-white text-gray-700 hover:bg-green-50"}
                 `}
-                            >
-                                {y}
-                            </button>
-                        );
-                    })}
-                </div>
-            </div>
+              >
+                {y}
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
-            {/* Grid */}
-            <main className="flex-1 bg-gray-50 py-12">
-                <div className="max-w-7xl mx-auto px-4">
-                    <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-                        {images.map((src, idx) => (
-                            <div
-                                key={src}
-                                className="break-inside mb-4 cursor-pointer overflow-hidden rounded-lg shadow-lg"
-                                onClick={() => openModal(idx)}
-                            >
-                                <Image
-                                    src={src}
-                                    alt={`Gallery ${year} #${idx + 1}`}
-                                    width={400}
-                                    height={300}
-                                    style={{ width: "100%", height: "auto" }}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </main>
+      {/* Masonry-style Grid */}
+      <main className="flex-1 bg-gray-50 py-12">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+            {images.map((src, idx) => (
+              <div
+                key={src}
+                className="break-inside mb-4 cursor-pointer overflow-hidden rounded-lg shadow-lg"
+                onClick={() => openModal(idx)}
+              >
+                <Image
+                  src={src}
+                  alt={`Gallery ${year} #${idx + 1}`}
+                  width={400}
+                  height={300}
+                  style={{ width: "100%", height: "auto" }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
 
       {/* Lightbox Modal */}
-<Modal
-  isOpen={modalIsOpen}
-  onRequestClose={closeModal}
-  contentLabel="Image Lightbox"
-  overlayClassName="fixed inset-0 bg-black bg-opacity-75 z-50"
-  className="absolute inset-0 flex items-center justify-center p-4 outline-none"
->
-  {/* Content wrapper */}
-  <div className="relative max-w-4xl w-full mx-auto">
-    {/* Close Button */}
-    <button
-      onClick={closeModal}
-      aria-label="Close"
-      className="
-        absolute -top-4 -right-4
-        bg-white bg-opacity-75 hover:bg-opacity-100
-        rounded-full p-2
-        text-black text-2xl
-        z-50
-        transition
-      "
-    >
-      &times;
-    </button>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Image Lightbox"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-75 z-50"
+        className="absolute inset-0 flex items-center justify-center outline-none"
+      >
+        <div className="relative max-w-screen-md w-full max-h-full">
+          {/* Close */}
+          <button
+            onClick={closeModal}
+            aria-label="Close"
+            className="absolute -top-4 -right-4 bg-white bg-opacity-75 hover:bg-opacity-100 rounded-full p-2 text-black text-2xl z-50 transition"
+          >
+            &times;
+          </button>
+          {/* Prev */}
+          <button
+            onClick={prevImage}
+            aria-label="Previous"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 text-white text-3xl px-4 z-50"
+          >
+            ‹
+          </button>
+          {/* Image (priority) */}
+          <div className="w-full h-full flex items-center justify-center">
+            <Image
+              src={images[currentIdx]}
+              alt={`Gallery ${year} #${currentIdx + 1}`}
+              width={1200}
+              height={800}
+              style={{ maxWidth: "100%", maxHeight: "100%", height: "auto" }}
+              priority
+            />
+          </div>
+          {/* Next */}
+          <button
+            onClick={nextImage}
+            aria-label="Next"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white text-3xl px-4 z-50"
+          >
+            ›
+          </button>
+        </div>
+      </Modal>
 
-    {/* Previous */}
-    <button
-      onClick={prevImage}
-      aria-label="Previous"
-      className="
-        absolute left-2 top-1/2 transform -translate-y-1/2
-        text-white text-4xl
-        p-2
-        bg-black bg-opacity-50 hover:bg-opacity-75
-        rounded-full
-        z-50
-        transition
-      "
-    >
-      ‹
-    </button>
-
-    {/* Displayed Image */}
-    <Image
-      src={images[currentIdx]}
-      alt={`Gallery ${year} #${currentIdx + 1}`}
-      width={1200}
-      height={800}
-      style={{ width: "100%", height: "auto" }}
-    />
-
-    {/* Next */}
-    <button
-      onClick={nextImage}
-      aria-label="Next"
-      className="
-        absolute right-2 top-1/2 transform -translate-y-1/2
-        text-white text-4xl
-        p-2
-        bg-black bg-opacity-50 hover:bg-opacity-75
-        rounded-full
-        z-50
-        transition
-      "
-    >
-      ›
-    </button>
-  </div>
-</Modal>
-
-
-
-    <Footer />
-    </div >
+      <Footer />
+    </div>
   );
 };
 
